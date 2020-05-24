@@ -30,10 +30,13 @@ void PID::UpdateError(double cte) {
 }
 
 void PID::Twiddle(double cte) {
-  Kp = 0;
-  Ki = 0;
-  Kd = 0;
-  double dp[3] = {1, 1, 1};
+  double p[3] = {0., 0., 0.};
+  double dp[3] = {1., 1., 1.};
+  Kp = p[0];
+  Ki = p[1];
+  Kd = p[2];
+  UpdateError(cte);
+  best_err = TotalError();
   double tol = 0.2;
   int it = 0;
   while ((dp[0] + dp[1] + dp[2]) > tol) {
@@ -41,12 +44,16 @@ void PID::Twiddle(double cte) {
     // std::cin.ignore();
     for (int i = 0; i < sizeof(p)/sizeof(p[0]); i++) {
       p[i] += dp[i];
+      UpdateError(cte);
+      best_err = TotalError();
       if (cte < best_err) {
         best_err = cte;
         dp[i] *= 1.1;
       }
       else {
         p[i] -= 2*dp[i];
+        UpdateError(cte);
+        best_err = TotalError();
         if (cte < best_err) {
           best_err = cte;
           dp[i] *= 1.1;
@@ -57,6 +64,8 @@ void PID::Twiddle(double cte) {
         }
       }
     }
+    //std::cout << p[0] << " " << p[1] << " " << p[2] << std::endl;
+    //std::cin.ignore();
     it += 1;
   }
   Kp = p[0];
