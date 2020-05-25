@@ -73,9 +73,6 @@ void PID::Twiddle(double cte) {
     //std::cin.ignore();
     it += 1;
   }
-  this->Kp += p[0];
-  this->Ki += p[1];
-  this->Kd += p[2];
 }
 
 double PID::TotalError() {
