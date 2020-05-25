@@ -2,6 +2,7 @@
 #include <uWS/uWS.h>
 #include <iostream>
 #include <string>
+#include <vector>
 #include "json.hpp"
 #include "PID.h"
 
