@@ -32,7 +32,7 @@ void PID::UpdateError(double cte) {
 }
 
 void PID::Twiddle(double cte) {
-  std::vector<double> p = {0., 0., 0.};
+  std::vector<double> p = {0.2, 0.0003, 3.0};
   std::vector<double> dp = {1., 1., 1.};
   best_err = TotalError();
   double tol = 0.2;
